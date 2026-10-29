@@ -21,11 +21,12 @@ def write_reports(result: dict, output_dir, run_id: str) -> dict:
         raise ValueError("Input count does not match outcome count")
 
     counts = Counter(item["status"] for item in outcomes)
-    if set(counts) - {"accepted", "rejected"}:
+    if set(counts) - {"accepted", "rejected", "skipped"}:
         raise ValueError("Unsupported outcome status")
     if (
         counts["accepted"] != summary["accepted_total"]
         or counts["rejected"] != summary["rejected_total"]
+                or counts["skipped"] != summary.get("skipped_total", 0)
     ):
         raise ValueError("Summary and outcome totals do not reconcile")
 
@@ -74,6 +75,7 @@ def write_reports(result: dict, output_dir, run_id: str) -> dict:
         f"- Input observations: {summary['input_observations']}",
         f"- Input total: {summary['input_total']}",
         f"- Accepted total: {summary['accepted_total']}",
+                f"- Skipped total: {summary.get('skipped_total', 0)}",
         f"- Rejected total: {summary['rejected_total']}",
         f"- Validation issue count: {len(issues)}",
         "",
