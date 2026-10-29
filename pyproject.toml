@@ -8,7 +8,10 @@ version = "0.1.0"
 description = "Educational synthetic healthcare interoperability pipeline"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = ["pydantic==2.14.1"]
+dependencies = [
+    "pydantic==2.14.1",
+    "fastapi==0.141.1",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -17,3 +20,9 @@ where = ["src"]
 testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = "-ra"
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.4.2",
+    "httpx==0.28.1",
+]
